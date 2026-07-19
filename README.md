@@ -85,13 +85,8 @@ The generator writes flat JSON structures containing the following fields:
    ```bash
    python3 /Users/luvahuja/loki-testing/loki-simulator/scripts/loki_sample_generator.py
    ```
-4. **Deploy for continuous simulation** (to feed live data):
-   **Background Loop** (Runs in the background, appending new logs every 10 seconds):
-     ```bash
-     nohup python3 -c 'import time, os; [os.system("python3 /Users/luvahuja/loki-testing/loki-simulator/scripts/loki_sample_generator.py") or time.sleep(10) for _ in iter(int, 1)]' > /dev/null 2>&1 &
-     ```
     luvahuja@Luvs-MacBook-Air logstash % python3 /Users/luvahuja/loki-testing/loki-simulator/scripts/loki_sample_generator.py
-    20 Loki/Router sample logs generated successfully with device_name.
+                                         20 Loki/Router sample logs generated successfully with device_name.
    
 ### C. Configure Log Collection on Mac Agent
 1. Open the agent configuration file on your Mac:
