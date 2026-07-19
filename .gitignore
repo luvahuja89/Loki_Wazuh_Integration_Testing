@@ -1,0 +1,15 @@
+# Logs and dynamic outputs
+loki-simulator/logs/*.log
+loki-simulator/output/*.log
+*.log
+
+# Python environment and cache files
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+.DS_Store
+.idea/
+.vscode/
