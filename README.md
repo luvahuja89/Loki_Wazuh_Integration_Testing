@@ -19,7 +19,7 @@ flowchart TD
         C -->|Secure Encrypted Transport| D[Wazuh Manager Container]
         D -->|Built-in JSON Decoder| E[Wazuh Rules Engine]
         E -->|Triggers Custom Rules 100101-100105| F[Wazuh Indexer]
-        E -->|Executes Webhook Script| G[Microsoft Teams / Slack]
+        E -->|Executes Webhook Script| G[Slack / Email Alerts]
         F -->|Displays Alerts & Fields| H[Wazuh Dashboard]
     end
 ```
@@ -30,10 +30,9 @@ flowchart TD
 
 * **`loki-simulator/`**: The log generation engine.
   * `scripts/loki_sample_generator.py`: Generates structured JSON events simulating container apps (`grafana-loki`) and network gateways (`router-gateway`).
-* **`wazuh-configs/`**: Wazuh configuration snippets.
+* **`wazuh-configs/`**: Wazuh configuration templates.
   * `agent-ossec-snippet.conf`: Configuration snippet for `/Library/Ossec/etc/ossec.conf` to parse the logs as JSON.
   * `manager-local-rules.xml`: Custom Wazuh rules to decode logs and trigger high-severity alerts.
-  * `custom-teams.py`: A Python script for custom Microsoft Teams webhook integrations.
 
 ---
 
@@ -65,21 +64,60 @@ The generator writes flat JSON structures containing the following fields:
 
 ## 4. Setup and Configuration
 
-### A. Mac Test Agent Setup
-1. Add the following block to your agent's `/Library/Ossec/etc/ossec.conf` file:
+### A. Wazuh Agent Installation on Mac Laptop
+1. Download the Wazuh macOS Agent installer package (`.pkg`) from the official Wazuh downloads page.
+2. Enroll and install the agent via the terminal on your Mac. Set the enrollment environment variables before starting the installation:
+   ```bash
+   sudo WA_MANAGER="100.100.14.16" WA_AGENT_NAME="MAC-LOKI-POC-LUV" installer -pkg wazuh-agent-*.pkg -target /
+   ```
+3. Start the Wazuh Agent daemon:
+   ```bash
+   sudo /Library/Ossec/bin/wazuh-control start
+   ```
+
+### B. Python Log Simulator Setup & Deployment
+1. Create the required directories on your Mac laptop:
+   ```bash
+   mkdir -p /Users/luvahuja/loki-testing/loki-simulator/{scripts,logs}
+   ```
+2. Write the log generator script to `/Users/luvahuja/loki-testing/loki-simulator/scripts/loki_sample_generator.py` (or clone/copy the script included in this repository).
+3. Test a single run to generate the first batch of 20 logs:
+   ```bash
+   python3 /Users/luvahuja/loki-testing/loki-simulator/scripts/loki_sample_generator.py
+   ```
+4. **Deploy for continuous simulation** (to feed live data):
+   * **Option 1: Background Loop** (Runs in the background, appending new logs every 10 seconds):
+     ```bash
+     nohup python3 -c 'import time, os; [os.system("python3 /Users/luvahuja/loki-testing/loki-simulator/scripts/loki_sample_generator.py") or time.sleep(10) for _ in iter(int, 1)]' > /dev/null 2>&1 &
+     ```
+   * **Option 2: Cron Job** (Appends logs once every minute):
+     ```bash
+     crontab -e
+     ```
+     Add this line:
+     ```text
+     * * * * * python3 /Users/luvahuja/loki-testing/loki-simulator/scripts/loki_sample_generator.py > /dev/null 2>&1
+     ```
+
+### C. Configure Log Collection on Mac Agent
+1. Open the agent configuration file on your Mac:
+   ```bash
+   sudo nano /Library/Ossec/etc/ossec.conf
+   ```
+2. Add the following block to scan the loki-sample log file:
    ```xml
    <localfile>
      <log_format>json</log_format>
      <location>/Users/luvahuja/loki-testing/loki-simulator/logs/loki-sample.log</location>
    </localfile>
    ```
-2. Restart the Wazuh Agent:
+3. Restart the Wazuh Agent:
    ```bash
    sudo /Library/Ossec/bin/wazuh-control restart
    ```
 
-### B. Wazuh Manager Setup (Docker-based)
-1. Write the custom rules on your host machine to `/home/luv.ahuja/local_rules.xml` (using the template in `wazuh-configs/manager-local-rules.xml`).
+### D. Configure Custom Rules on Wazuh Manager
+1. Create your local rules file on the Wazuh production server host machine at `/home/luv.ahuja/local_rules.xml` (using the templates provided in `wazuh-configs/manager-local-rules.xml`).
 2. Copy the file into the running Wazuh Manager Docker container:
    ```bash
    sudo docker cp /home/luv.ahuja/local_rules.xml single-node-wazuh.manager-1:/var/ossec/etc/rules/local_rules.xml
@@ -87,23 +125,6 @@ The generator writes flat JSON structures containing the following fields:
 3. Restart the container:
    ```bash
    sudo docker restart single-node-wazuh.manager-1
-   ```
-
-### C. Webhook Integration (Microsoft Teams)
-1. Place the Python script from `wazuh-configs/custom-teams.py` into the manager container at `/var/ossec/integrations/custom-teams`.
-2. Configure permissions inside the container:
-   ```bash
-   chmod 750 /var/ossec/integrations/custom-teams
-   chown root:wazuh /var/ossec/integrations/custom-teams
-   ```
-3. Enable the integration in the manager's `/var/ossec/etc/ossec.conf` file inside the container:
-   ```xml
-   <integration>
-     <name>custom-teams</name>
-     <hook_url>https://yourcompany.webhook.office.com/webhookb2/...</hook_url>
-     <level>7</level>
-     <alert_format>json</alert_format>
-   </integration>
    ```
 
 ---
