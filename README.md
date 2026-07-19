@@ -1,4 +1,4 @@
-# Wazuh + Loki Integration: SIEM and Observability POC for JSON Logs
+# Loki + Wazuh SIEM Integration Testing using JSON Logs
 
 This repository contains the architecture, log generator, and configuration templates for a Proof of Concept (POC) evaluating **Wazuh** as both a Security Information and Event Management (SIEM) system and a structured observability platform (acting as a Grafana Loki alternative) for JSON application and network logs.
 
