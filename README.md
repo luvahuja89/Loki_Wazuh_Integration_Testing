@@ -1,6 +1,6 @@
 # Loki + Wazuh SIEM Integration Testing using JSON Logs
 
-This repository contains the architecture, log generator, and configuration templates for a Proof of Concept (POC) evaluating if Loki Logs which are build using custom identified such as Hostname/device Name and Device IP (of VMs, Routers, Switches, Apps) are being able to sent to **Wazuh** as both a Security Information and Event Management (SIEM) system for JSON application and network logs.
+This repository contains the architecture, log generator, and configuration templates for a Proof of Concept (POC) evaluating if Loki Logs which are build using custom identified such as Hostname/device Name and Device IP (of VMs, Routers, Switches, Apps) are being able to sent to **Wazuh** as both a Security Information and Event Management (SIEM) system for JSON application and network logs monitoring 
 
 ---
 
