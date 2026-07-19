@@ -1,0 +1,104 @@
+luvahuja@Luvs-MacBook-Air ~ % cd /Users/luvahuja/loki-testing
+luvahuja@Luvs-MacBook-Air loki-testing % ls -ll
+total 16
+drwxr-xr-x  5 luvahuja  staff   160 27 Jun 14:48 loki-simulator
+-rw-r--r--  1 luvahuja  staff  5094 19 Jul 12:49 README.md
+drwxr-xr-x  5 luvahuja  staff   160 19 Jul 10:38 wazuh-configs
+luvahuja@Luvs-MacBook-Air loki-testing % 
+luvahuja@Luvs-MacBook-Air loki-testing % 
+luvahuja@Luvs-MacBook-Air loki-testing % git init
+hint: Using 'master' as the name for the initial branch. This default branch name
+hint: will change to "main" in Git 3.0. To configure the initial branch name
+hint: to use in all of your new repositories, which will suppress this warning,
+hint: call:
+hint:
+hint: 	git config --global init.defaultBranch <name>
+hint:
+hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+hint: 'development'. The just-created branch can be renamed via this command:
+hint:
+hint: 	git branch -m <name>
+hint:
+hint: Disable this message with "git config set advice.defaultBranchName false"
+Initialized empty Git repository in /Users/luvahuja/loki-testing/.git/
+luvahuja@Luvs-MacBook-Air loki-testing % 
+luvahuja@Luvs-MacBook-Air loki-testing % git add .
+
+luvahuja@Luvs-MacBook-Air loki-testing % git commit -m "Initial commit: Wazuh + Loki integration POC"
+[master (root-commit) ca296de] Initial commit: Wazuh + Loki integration POC
+ 6 files changed, 360 insertions(+)
+ create mode 100644 .gitignore
+ create mode 100644 README.md
+ create mode 100755 loki-simulator/scripts/loki_sample_generator.py
+ create mode 100644 wazuh-configs/agent-ossec-snippet.conf
+ create mode 100644 wazuh-configs/custom-teams.py
+ create mode 100644 wazuh-configs/manager-local-rules.xml
+luvahuja@Luvs-MacBook-Air loki-testing % ls -ll
+total 16
+drwxr-xr-x  5 luvahuja  staff   160 27 Jun 14:48 loki-simulator
+-rw-r--r--  1 luvahuja  staff  5094 19 Jul 12:49 README.md
+drwxr-xr-x  5 luvahuja  staff   160 19 Jul 10:38 wazuh-configs
+luvahuja@Luvs-MacBook-Air loki-testing % 
+luvahuja@Luvs-MacBook-Air loki-testing % 
+luvahuja@Luvs-MacBook-Air loki-testing % git branch -M main
+luvahuja@Luvs-MacBook-Air loki-testing % git remote add origin https://github.com/luvahuja89@gmail.com/Loki_Wazuh_UAT_Testing_POC.git 
+luvahuja@Luvs-MacBook-Air loki-testing %  git push -u origin main
+remote: Repository not found.
+fatal: repository 'https://github.com/luvahuja89@gmail.com/Loki_Wazuh_UAT_Testing_POC.git/' not found
+luvahuja@Luvs-MacBook-Air loki-testing % git push -u origin main 
+remote: Repository not found.
+fatal: repository 'https://github.com/luvahuja89@gmail.com/Loki_Wazuh_UAT_Testing_POC.git/' not found
+luvahuja@Luvs-MacBook-Air loki-testing % 
+luvahuja@Luvs-MacBook-Air loki-testing % 
+luvahuja@Luvs-MacBook-Air loki-testing %     git remote remove origin
+
+luvahuja@Luvs-MacBook-Air loki-testing % https://github.com/luvahuja89/Loki_Wazuh_UAT_Testing_POC.git
+zsh: no such file or directory: https://github.com/luvahuja89/Loki_Wazuh_UAT_Testing_POC.git
+luvahuja@Luvs-MacBook-Air loki-testing % '
+quote> 
+quote>   
+luvahuja@Luvs-MacBook-Air loki-testing % 
+luvahuja@Luvs-MacBook-Air loki-testing %     git remote add origin https://github.com/luvahuja89/Loki_Wazuh_UAT_Testing_POC.git
+
+luvahuja@Luvs-MacBook-Air loki-testing % 
+luvahuja@Luvs-MacBook-Air loki-testing % git push -u origin main
+remote: Repository not found.
+fatal: repository 'https://github.com/luvahuja89/Loki_Wazuh_UAT_Testing_POC.git/' not found
+luvahuja@Luvs-MacBook-Air loki-testing % git push -u origin main
+Enumerating objects: 11, done.
+Counting objects: 100% (11/11), done.
+Delta compression using up to 10 threads
+Compressing objects: 100% (10/10), done.
+Writing objects: 100% (11/11), 5.92 KiB | 5.92 MiB/s, done.
+Total 11 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)
+To https://github.com/luvahuja89/Loki_Wazuh_UAT_Testing_POC.git
+ * [new branch]      main -> main
+branch 'main' set up to track 'origin/main'.
+luvahuja@Luvs-MacBook-Air loki-testing % git add README.md
+luvahuja@Luvs-MacBook-Air loki-testing %     
+luvahuja@Luvs-MacBook-Air loki-testing % git commit -m "Fix: Wrap Mermaid subgraph names in double quotes to resolve render issue"
+[main 7971477] Fix: Wrap Mermaid subgraph names in double quotes to resolve render issue
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+luvahuja@Luvs-MacBook-Air loki-testing % git push -u origin main
+To https://github.com/luvahuja89/Loki_Wazuh_UAT_Testing_POC.git
+ ! [rejected]        main -> main (fetch first)
+error: failed to push some refs to 'https://github.com/luvahuja89/Loki_Wazuh_UAT_Testing_POC.git'
+hint: Updates were rejected because the remote contains work that you do not
+hint: have locally. This is usually caused by another repository pushing to
+hint: the same ref. If you want to integrate the remote changes, use
+hint: 'git pull' before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+luvahuja@Luvs-MacBook-Air loki-testing % 
+luvahuja@Luvs-MacBook-Air loki-testing % 
+luvahuja@Luvs-MacBook-Air loki-testing % git push -u origin main --force
+Enumerating objects: 14, done.
+Counting objects: 100% (14/14), done.
+Delta compression using up to 10 threads
+Compressing objects: 100% (13/13), done.
+Writing objects: 100% (14/14), 6.19 KiB | 6.19 MiB/s, done.
+Total 14 (delta 2), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (2/2), done.
+To https://github.com/luvahuja89/Loki_Wazuh_UAT_Testing_POC.git
+ + 2b31085...7971477 main -> main (forced update)
+branch 'main' set up to track 'origin/main'.
+luvahuja@Luvs-MacBook-Air loki-testing % 
