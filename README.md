@@ -22,7 +22,6 @@ flowchart TD
         C -->|Secure Encrypted Transport| D[Wazuh Manager Container]
         D -->|Built-in JSON Decoder| E[Wazuh Rules Engine]
         E -->|Triggers Custom Rules 100101-100105| F[Wazuh Indexer]
-        E -->|Executes Webhook Script| G[Slack / Email Alerts]
         F -->|Displays Alerts & Fields| H[Wazuh Dashboard]
     end
 ```
